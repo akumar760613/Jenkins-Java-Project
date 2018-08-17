@@ -17,6 +17,7 @@ stages {
    echo "Deploying"
       }
     }
+  stage ('Build_number') {
   steps {
     echo "My Branch Name: ${env.BRANCH_NAME}"
    }
@@ -24,6 +25,7 @@ stages {
   post {
     always {
       archive 'dist/*.jar'
+      }
     }
   }
 }
