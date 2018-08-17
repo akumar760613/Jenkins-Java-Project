@@ -23,7 +23,7 @@ stages {
    }
   post {
     always {
-      archiveArtifacts artifacts: 'dist/tools.jar', fingerprint: true
+      archiveArtifacts artifacts: 'src/*.jar', fingerprint: true
       }
     }
   }
