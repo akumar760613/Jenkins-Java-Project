@@ -15,8 +15,9 @@ stages {
  stage ('Deploy') {
  steps {
    echo "Deploying"
-   sh 'ant -f build.xml -v'
       }
     }
+  steps {
+    echo "My Branch Name: ${env.BRANCH_NAME}"
   }
 }
