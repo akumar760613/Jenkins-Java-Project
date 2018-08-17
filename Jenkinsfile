@@ -19,5 +19,11 @@ stages {
     }
   steps {
     echo "My Branch Name: ${env.BRANCH_NAME}"
+   }
+ }
+  post {
+    always {
+      archive 'dist/*.jar'
+    }
   }
 }
