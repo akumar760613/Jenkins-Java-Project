@@ -15,6 +15,7 @@ stages {
  stage ('Deploy') {
  steps {
    echo "Deploying"
+   sh 'ant -f build.xml -v'
       }
     }
   }
