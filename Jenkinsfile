@@ -22,7 +22,7 @@ stages {
     }
   stage ('Build_number') {
   steps {
-    echo "My Branch Name: ${env.BRANCH_NAME}"
+    echo "JOB_NAME: ${env.BUILD_NUMBER}"
    }
   }
    stage ('Unit Testing') {
