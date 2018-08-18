@@ -106,7 +106,7 @@ stages {
       )
     }
   }
-  stage ('Completed') {
+  stage('Completed') {
     agent {
         label 'master'
       }
