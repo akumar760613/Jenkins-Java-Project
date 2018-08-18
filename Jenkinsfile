@@ -29,7 +29,7 @@ stages {
         label 'master'
       }
  steps {
-   sh "cp dist/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar
+   sh "cp dist/rectangle.jar /var/www/html/rectangles/all/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar
       }
     }
   stage ("Running on Centos") {
