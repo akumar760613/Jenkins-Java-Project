@@ -29,7 +29,7 @@ stages {
         label 'master'
       }
  steps {
-   sh "cp dist/rectangle.jar /var/www/html/rectangles/all/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar
+   sh "cp dist/rectangle.jar /var/www/html/rectangles/all/rectangle.jar
       }
     }
   stage ("Running on Centos") {
@@ -37,7 +37,7 @@ stages {
       label 'master'
     }
     steps {
-      sh "wget http://jsudepally1.mylabserver.com/rectangles/all/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+      sh "wget http://jsudepally1.mylabserver.com/rectangles/all/rectangle.jar"
       echo "Successfully downloaded jar file and updated with build number"
     }
   }
@@ -46,7 +46,7 @@ stages {
         docker 'openjdk:8u121-jre'
       }
       steps {
-      sh "wget http://jsudepally1.mylabserver.com/rectangles/all/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+      sh "wget http://jsudepally1.mylabserver.com/rectangles/all/rectangle.jar"
       echo "Successfully downloaded jar file and updated with build number"
     }
   }
@@ -58,7 +58,7 @@ stages {
         branch 'master'
       }
   steps {
-   sh "cp /var/www/html/rectangles/all/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+   sh "cp /var/www/html/rectangles/all/rectangle.jar /var/www/html/rectangles/green/rectangle.jar"
    }
  }
  stage('Promote Development Branch to Master') {
