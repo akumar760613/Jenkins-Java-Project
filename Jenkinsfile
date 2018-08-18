@@ -29,7 +29,7 @@ stages {
         label 'master'
       }
  steps {
-   sh "cp dist/rectangle.jar /var/www/html/rectangles/all"
+   sh "cp dist/rectangle_${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all"
       }
     }
   stage ("Running on Centos") {
@@ -37,7 +37,7 @@ stages {
       label 'master'
     }
     steps {
-      sh "wget http://jsudepally1.mylabserver.com/rectangles/all/rectangle.jar"
+      sh "wget http://jsudepally1.mylabserver.com/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar"
       echo "Successfully downloaded jar file and updated with build number"
     }
   }
