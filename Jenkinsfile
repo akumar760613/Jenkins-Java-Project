@@ -15,6 +15,7 @@ stages {
       sh 'ant -f test.xml -v'
       junit 'reports/result.xml'
     }
+ }
  stage ('Deploy') {
  steps {
    echo "Deploying"
@@ -24,7 +25,6 @@ stages {
   steps {
     echo "JOB_NAME: ${env.BUILD_NUMBER}"
    }
-  }
   post {
     always {
       archiveArtifacts artifacts: 'dist/', fingerprint: true
