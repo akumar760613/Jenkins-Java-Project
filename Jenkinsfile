@@ -32,7 +32,7 @@ stages {
       label 'master'
     }
     steps {
-      sh "wget http://http://jsudepally1.mylabserver.com/rectangles/all/rectangle.jar"
+      sh "wget http://jsudepally1.mylabserver.com/rectangles/all/rectangle.jar"
       sh "java -jar rectangle.jar 3 4"
     }
   }
