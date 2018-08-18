@@ -84,7 +84,6 @@ stages {
         sh "git tag rectangle-${env.BUILD_NUMBER}"
         sh "git push origin rectangle-${env.BUILD_NUMBER}"
       }
-    }
       post {
         success {
           emailext(
@@ -115,3 +114,4 @@ stages {
     echo "Successfully Deployed"
    }
   }
+}
