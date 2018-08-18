@@ -38,7 +38,7 @@ stages {
     }
     steps {
       sh "wget http://jsudepally1.mylabserver.com/rectangles/all/rectangle.jar"
-      sh "java -jar rectangle.jar"
+      echo "Successfully downloaded jar file and updated with build number"
     }
   }
   stage ('Completed') {
