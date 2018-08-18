@@ -46,7 +46,7 @@ stages {
         docker 'openjdk:8u121-jre'
       }
       steps {
-      sh "wget http://jsudepally1.mylabserver.com/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar"
+      sh "wget http://jsudepally1.mylabserver.com/rectangles/all/rectangle.jar"
       echo "Successfully downloaded jar file and updated with build number"
     }
   }
