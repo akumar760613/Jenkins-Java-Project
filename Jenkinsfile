@@ -106,12 +106,4 @@ stages {
       )
     }
   }
-  stage('Completed') {
-    agent {
-        label 'master'
-      }
-  steps {
-    echo "Successfully Deployed"
-   }
-  }
 }
