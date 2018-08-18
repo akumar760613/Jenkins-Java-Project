@@ -52,7 +52,7 @@ stages {
   }
   stage ('Promote to Green') {
   steps {
-   sh "cp /var/www/html/all/rectangle_${env.BUILD_NUMBER}.jar /var/www/html/green/rectangle_${env.BUILD_NUMBER}.jar"
+   sh "cp /var/www/html/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${env.BUILD_NUMBER}.jar"
    }
  }
   stage ('Completed') {
