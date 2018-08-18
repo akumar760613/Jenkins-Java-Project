@@ -7,8 +7,13 @@ stages {
         label 'master'
       }
   steps {
-   echo "BUILD_NUMBER:$BUILD_NUMBER"
+    sh 'ant -f build.xml -v'
    }
+    post {
+    success {
+      archiveArtifacts artifacts: 'dist/', fingerprint: true
+      }
+    }
  }
  stage ('Unit Testing') {
    agent {
@@ -33,7 +38,7 @@ stages {
     }
     steps {
       sh "wget http://jsudepally1.mylabserver.com/rectangles/all/rectangle.jar"
-      sh "java -jar rectangle.jar 3 4"
+      sh "java -jar rectangle.jar"
     }
   }
   stage ('Completed') {
@@ -43,11 +48,6 @@ stages {
   steps {
     echo "Successfully Deployed"
    }
-  post {
-    always {
-      archiveArtifacts artifacts: 'dist/', fingerprint: true
-      }
-    }
   }
 }
 }
