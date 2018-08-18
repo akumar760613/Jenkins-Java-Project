@@ -1,40 +1,53 @@
 pipeline {
-  agent any
+  agent none
   
-  options {
-    buildDiscarder(logRotator(numToKeepStr: '2', artifactNumToKeepStr: '1' ))
-  }
 stages {
-  stage ('Unit Testing') {
+  stage ('Build') {
+    agent {
+        label 'master'
+      }
+  steps {
+    sh 'ant -f build.xml -v'
+   }
+    post {
+    success {
+      archiveArtifacts artifacts: 'dist/', fingerprint: true
+      }
+    }
+ }
+ stage ('Unit Testing') {
+   agent {
+        label 'master'
+      }
     steps {
       sh 'ant -f test.xml -v'
       junit 'reports/result.xml'
     }
-  }
-  stage ('Build') {
-  steps {
-   echo "Building"
-   }
- }
- stage ('test') {
- steps {
-  echo "Testing"
-   }
  }
  stage ('Deploy') {
+   agent {
+        label 'master'
+      }
  steps {
-   echo "Deploying"
+   sh "cp dist/rectangle_${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all"
       }
     }
-  stage ('Build_number') {
+  stage ("Running on Centos") {
+    agent {
+      label 'master'
+    }
+    steps {
+      sh "wget http://jsudepally1.mylabserver.com/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar"
+      echo "Successfully downloaded jar file and updated with build number"
+    }
+  }
+  stage ('Completed') {
+    agent {
+        label 'master'
+      }
   steps {
-    echo "My Branch Name: ${env.BRANCH_NAME}"
+    echo "Successfully Deployed"
    }
-  post {
-    always {
-      archiveArtifacts artifacts: 'dist/', fingerprint: true
-      }
-    }
   }
 }
 }
