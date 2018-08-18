@@ -82,7 +82,7 @@ stages {
         sh 'git push origin master'
         echo 'Tagging the Release'
         sh "git tag rectangle-${env.BUILD_NUMBER}"
-        sh "git push origin rectangle-$${env.BUILD_NUMBER}"
+        sh "git push origin rectangle-${env.BUILD_NUMBER}"
       }
     }
   stage ('Completed') {
