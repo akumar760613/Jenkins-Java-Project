@@ -10,11 +10,11 @@ stages {
    echo "Building"
    }
  }
- stage ('test') {
- steps {
-  echo "Testing"
-   }
- }
+ stage ('Unit Testing') {
+    steps {
+      sh 'ant -f test.xml -v'
+      junit 'reports/result.xml'
+    }
  stage ('Deploy') {
  steps {
    echo "Deploying"
@@ -25,11 +25,6 @@ stages {
     echo "JOB_NAME: ${env.BUILD_NUMBER}"
    }
   }
-   stage ('Unit Testing') {
-    steps {
-      sh 'ant -f test.xml -v'
-      junit 'reports/result.xml'
-    }
   post {
     always {
       archiveArtifacts artifacts: 'dist/', fingerprint: true
