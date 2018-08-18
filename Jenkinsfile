@@ -5,7 +5,7 @@ pipeline {
 stages {
   stage ('Build') {
   steps {
-   echo "Building"
+   echo "BUILD_NUMBER:$BUILD_NUMBER"
    }
  }
  stage ('Unit Testing') {
@@ -19,9 +19,9 @@ stages {
    sh "cp dist/rectangle.jar /var/www/html/rectangles/all"
       }
     }
-  stage ('Build_number') {
+  stage ('Completed') {
   steps {
-    echo "JOB_NAME: ${env.BUILD_NUMBER}"
+    echo "Successfully Deployed"
    }
   post {
     always {
