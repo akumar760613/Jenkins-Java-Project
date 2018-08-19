@@ -37,7 +37,7 @@
         label 'master'
       }
       steps {
-        sh "wget http://jsudepally1.mylabserver.com/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+        sh "wget http://jsudepally1.mylabserver.com/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.jar"
          echo "Successfully Downloaded jar file"
       }
     }
