@@ -54,9 +54,6 @@
       agent {
         label 'master'
       }
-      when {
-        branch 'master'
-      }
       steps {
         sh "cp /var/www/html/rectangles/all/${env.BRANCH_NAME}/rectangle.jar /var/www/html/rectangles/green/rectangle.jar"
       }
@@ -64,9 +61,6 @@
     stage('Promote Development Branch to Master') {
       agent {
         label 'master'
-      }
-      when {
-        branch 'development'
       }
       steps {
         echo "Stashing Any Local Changes"
