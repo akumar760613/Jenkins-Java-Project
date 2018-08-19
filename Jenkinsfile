@@ -13,7 +13,7 @@
     }
     stage('build') {
       agent {
-        abel 'master'
+        label 'master'
       }
       steps {
         sh 'ant -f build.xml -v'
@@ -29,8 +29,7 @@
         label 'master'
       }
       steps {
-        sh  "mkdir /var/www/html/rectangles/all/${env.BRANCH_NAME}/"
-        sh "cp dist/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all/${env.BRANCH_NAME}/"
+        sh "cp dist/rectangle.jar /var/www/html/rectangles/all/${env.BRANCH_NAME}/"
       }
     }
     stage("Running on CentOS") {
@@ -38,7 +37,7 @@
         label 'master'
       }
       steps {
-        sh "wget http://jsudepally1.mylabserver.com/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+        sh "wget http://jsudepally1.mylabserver.com/rectangles/all/${env.BRANCH_NAME}/rectangle.jar"
          echo "Successfully Downloaded jar file"
       }
     }
@@ -47,7 +46,7 @@
         docker 'openjdk:8u121-jre'
       }
       steps {
-        sh "wget http://jsudepally1.mylabserver.com/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+        sh "wget http://jsudepally1.mylabserver.com/rectangles/all/${env.BRANCH_NAME}/rectangle.jar"
         echo "Successfully Downloaded jar file"
       }
     }
@@ -55,19 +54,13 @@
       agent {
         label 'master'
       }
-      when {
-        branch 'master'
-      }
       steps {
-        sh "cp /var/www/html/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+        sh "cp /var/www/html/rectangles/all/${env.BRANCH_NAME}/rectangle.jar /var/www/html/rectangles/green/rectangle.jar"
       }
     }
     stage('Promote Development Branch to Master') {
       agent {
         label 'master'
-      }
-      when {
-        branch 'development'
       }
       steps {
         echo "Stashing Any Local Changes"
