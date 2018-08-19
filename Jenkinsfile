@@ -2,7 +2,14 @@
   agent none
   
   stages {  
-    stage('Unit Tests') {
+   stage('Say Hello') {
+     agent any
+    
+    step {
+      sayHello'Good Work Arun!'
+    }
+  }
+     stage('Unit Tests') {
       agent {
         label 'master'
       }
