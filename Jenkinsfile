@@ -6,7 +6,7 @@
     agent {
        label 'master'
     }
-    step {
+    steps {
       sayHello'Good Work Arun!'
     }
   }
