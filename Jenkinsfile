@@ -29,7 +29,6 @@
         label 'master'
       }
       steps {
-        sh  "mkdir /var/www/html/rectangles/all/${env.BRANCH_NAME}/"
         sh "cp dist/rectangle.jar /var/www/html/rectangles/all/${env.BRANCH_NAME}/"
       }
     }
