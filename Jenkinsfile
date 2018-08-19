@@ -1,69 +1,69 @@
-pipeline {
+ pipeline {
   agent none
   
-stages {
-  stage ('Build') {
-    agent {
-        label 'master'
+    stage('Unit Tests') {
+      agent {
+        label 'apache'
       }
-  steps {
-    sh 'ant -f build.xml -v'
-   }
-    post {
-    success {
-      archiveArtifacts artifacts: 'dist/', fingerprint: true
+      steps {
+        sh 'ant -f test.xml -v'
+        junit 'reports/result.xml'
       }
     }
- }
- stage ('Unit Testing') {
-   agent {
-        label 'master'
+    stage('build') {
+      agent {
+        label 'apache'
       }
-    steps {
-      sh 'ant -f test.xml -v'
-      junit 'reports/result.xml'
-    }
- }
- stage ('Deploy') {
-   agent {
-        label 'master'
+      steps {
+        sh 'ant -f build.xml -v'
       }
- steps {
-   sh "cp dist/rectangle.jar /var/www/html/rectangles/all/"
+      post {
+        success {
+          archiveArtifacts artifacts: 'dist/*.jar', fingerprint: true
+        }
       }
     }
-  stage ("Running on Centos") {
-    agent {
-      label 'master'
+    stage('deploy') {
+      agent {
+        label 'apache'
+      }
+      steps {
+        sh  "mkdir /var/www/html/rectangles/all/${env.BRANCH_NAME}/"
+        sh "cp dist/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all/${env.BRANCH_NAME}/"
+      }
     }
-    steps {
-      sh "wget http://jsudepally1.mylabserver.com/rectangles/all/rectangle.jar"
-      echo "Successfully downloaded jar file and updated with build number"
+    stage("Running on CentOS") {
+      agent {
+        label 'CentOS'
+      }
+      steps {
+        sh "wget http://jsudepally1.mylabserver.com/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+         echo "Successfully Downloaded jar file"
+      }
     }
-  }
-   stage("Test on Debian") {
+    stage("Test on Debian") {
       agent {
         docker 'openjdk:8u121-jre'
       }
       steps {
-      sh "wget http://jsudepally1.mylabserver.com/rectangles/all/rectangle.jar"
-      echo "Successfully downloaded jar file and updated with build number"
+        sh "wget http://jsudepally1.mylabserver.com/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+        echo "Successfully Downloaded jar file"
+      }
     }
-  }
-  stage ('Promote to Green') {
-    agent {
-      label 'master'
-    }
-   when {
+    stage('Promote to Green') {
+      agent {
+        label 'apache'
+      }
+      when {
         branch 'master'
       }
-  steps {
-   sh "cp /var/www/html/rectangles/all/rectangle_${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${env.BUILD_NUMBER}.jar"
-   }
- }
- stage('Promote Development Branch to Master') {
+      steps {
+        sh "cp /var/www/html/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+      }
+    }
+    stage('Promote Development Branch to Master') {
       agent {
-        label 'master'
+        label 'apache'
       }
       when {
         branch 'development'
@@ -81,17 +81,29 @@ stages {
         echo 'Pushing to Origin Master'
         sh 'git push origin master'
         echo 'Tagging the Release'
-        sh "git tag rectangle-${env.BUILD_NUMBER}"
-        sh "git push origin rectangle-${env.BUILD_NUMBER}"
+        sh "git tag rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
+        sh "git push origin rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
+      }
+      post {
+        success {
+          emailext(
+            subject: "${env.JOB_NAME} [${env.BUILD_NUMBER}] Development Promoted to Master",
+            body: """<p>'${env.JOB_NAME} [${env.BUILD_NUMBER}]' Development Promoted to Master":</p>
+            <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+            to: "arun.immadi8@gmail.com"
+          )
+        }
       }
     }
-  stage ('Completed') {
-    agent {
-        label 'master'
-      }
-  steps {
-    echo "Successfully Deployed"
-   }
   }
-}
+  post {
+    failure {
+      emailext(
+        subject: "${env.JOB_NAME} [${env.BUILD_NUMBER}] Failed!",
+        body: """<p>'${env.JOB_NAME} [${env.BUILD_NUMBER}]' Failed!":</p>
+        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+         to: "arun.immadi8@gmail.com"
+      )
+    }
+  }
 }
