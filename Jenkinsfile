@@ -7,7 +7,7 @@
        label 'master'
     }
     steps {
-      sayHello'Good Work Arun!'
+      sayhello'Good Work Arun!'
     }
   }
      stage('Unit Tests') {
