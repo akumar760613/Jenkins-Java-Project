@@ -3,8 +3,9 @@
   
   stages {  
    stage('Say Hello') {
-     agent any
-    
+    agent {
+       label 'master'
+    }
     step {
       sayHello'Good Work Arun!'
     }
