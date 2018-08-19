@@ -37,7 +37,7 @@
         label 'master'
       }
       steps {
-        sh "wget http://jsudepally1.mylabserver.com/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.jar"
+        sh "wget http://jsudepally1.mylabserver.com/rectangles/all/${env.BRANCH_NAME}/rectangle.jar"
          echo "Successfully Downloaded jar file"
       }
     }
@@ -46,7 +46,7 @@
         docker 'openjdk:8u121-jre'
       }
       steps {
-        sh "wget http://jsudepally1.mylabserver.com/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.jar"
+        sh "wget http://jsudepally1.mylabserver.com/rectangles/all/${env.BRANCH_NAME}/rectangle.jar"
         echo "Successfully Downloaded jar file"
       }
     }
@@ -58,7 +58,7 @@
         branch 'master'
       }
       steps {
-        sh "cp /var/www/html/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.jar /var/www/html/rectangles/green/rectangle_${env.MAJOR_VERSION}.jar"
+        sh "cp /var/www/html/rectangles/all/${env.BRANCH_NAME}/rectangle.jar /var/www/html/rectangles/green/rectangle.jar"
       }
     }
     stage('Promote Development Branch to Master') {
