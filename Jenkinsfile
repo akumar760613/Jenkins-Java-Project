@@ -13,7 +13,7 @@
     }
     stage('build') {
       agent {
-        abel 'master'
+        label 'master'
       }
       steps {
         sh 'ant -f build.xml -v'
