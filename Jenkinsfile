@@ -3,7 +3,7 @@
   
     stage('Unit Tests') {
       agent {
-        label 'apache'
+        label 'master'
       }
       steps {
         sh 'ant -f test.xml -v'
@@ -12,7 +12,7 @@
     }
     stage('build') {
       agent {
-        label 'apache'
+        abel 'master'
       }
       steps {
         sh 'ant -f build.xml -v'
@@ -25,7 +25,7 @@
     }
     stage('deploy') {
       agent {
-        label 'apache'
+        label 'master'
       }
       steps {
         sh  "mkdir /var/www/html/rectangles/all/${env.BRANCH_NAME}/"
@@ -34,7 +34,7 @@
     }
     stage("Running on CentOS") {
       agent {
-        label 'CentOS'
+        label 'master'
       }
       steps {
         sh "wget http://jsudepally1.mylabserver.com/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
@@ -52,7 +52,7 @@
     }
     stage('Promote to Green') {
       agent {
-        label 'apache'
+        label 'master'
       }
       when {
         branch 'master'
@@ -63,7 +63,7 @@
     }
     stage('Promote Development Branch to Master') {
       agent {
-        label 'apache'
+        label 'master'
       }
       when {
         branch 'development'
@@ -106,4 +106,3 @@
       )
     }
   }
-}
